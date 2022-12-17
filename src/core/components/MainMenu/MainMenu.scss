@@ -1,0 +1,41 @@
+.menu {
+	&__navItem {
+		text-decoration: none;
+		color: #C4C5D0;
+		display: block;
+
+		&--active {
+			background-color: #444454;
+		}
+	}
+
+	&.MuiDrawer-paper.MuiPaper-root {
+		background-color: #262633;
+		color: #C4C5D0;
+	}
+
+	&__logo {
+		&.MuiBox-root {
+			height: 8rem;
+			width: 8rem;
+			margin: 4rem auto 0 auto;
+			transition: .2s ease opacity, .3s ease translate;
+		}
+	}
+
+	&__listItem {
+		&.MuiListItem-root {
+			&:hover {
+				background-color: #444454;
+			}
+		}
+	}
+
+	&__listIcon {
+		&.MuiListItemIcon-root {
+			min-width: 0;
+			justify-content: center;
+			color: #C4C5D0;
+		}
+	}
+}
