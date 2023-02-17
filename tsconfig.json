@@ -8,6 +8,7 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "strictPropertyInitialization": false,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -21,5 +22,6 @@
     },
   },
   "include": ["src"],
+  "exclude": ["**/node_modules", "**/.*/"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

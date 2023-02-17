@@ -1,2 +1,1 @@
-import { HttpClient } from './http.client'
-export { HttpClient }
+export * from "./http.client";

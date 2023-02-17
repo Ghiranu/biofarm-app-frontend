@@ -1,12 +1,47 @@
-import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { MainMenu } from "./core/components";
+import {
+  LoginForm,
+  PersistLogin,
+  RegisterForm,
+} from "./Authentication/components";
+import { Home } from "./core/components";
+import ProtectedRoute from "./core/routes/ProtectedRoute";
+import { OrdersPage } from "./Orders/components";
+import { AddProductPage } from "./Products/components/AddProductPage";
+import { ShoppingCartPage } from "./Products/components/ShoppingCartPage";
 
 function App() {
   return (
-    <div className="App">
-      <MainMenu />
-    </div>
+    <Routes>
+      <Route path="login" element={<LoginForm />} />
+      <Route path="register" element={<RegisterForm />} />
+
+      <Route element={<PersistLogin />}>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="orders" element={<OrdersPage />} />
+        </Route>
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="add-product" element={<AddProductPage />} />
+        </Route>
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="subscriptions" element={<h1>Test</h1>} />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path="shopping-cart" element={<ShoppingCartPage />} />
+        </Route>
+      </Route>
+
+      {/* catch all */}
+      {/* <Route path="*" element={<Missing />} /> */}
+      {/* </Route> */}
+    </Routes>
   );
 }
 

@@ -1,6 +1,6 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Box from "@mui/material/Box";
+import { Box } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -11,7 +11,9 @@ import ListItemText from "@mui/material/ListItemText";
 import { CSSObject, styled, Theme } from "@mui/material/styles";
 import * as React from "react";
 import { NavLink } from "react-router-dom";
-import { MAIN_MENU_ITEMS, PersistentStorage, USER_INFO_KEY } from "shared";
+import { MAIN_MENU_ITEMS } from "shared/constants";
+import { PATHS } from "shared/constants/utils";
+import { useProductStore } from "Products/store";
 import "./MainMenu.scss";
 
 const drawerWidth = 240;
@@ -57,18 +59,18 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const MainMenu: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
-  // const userInfo = PersistentStorage.getItem(USER_INFO_KEY, sessionStorage);
-  // const { role } = userInfo;
+type MainMenuProps = {
+  open: boolean;
+  handleDrawerOpen: () => void;
+  handleDrawerClose: () => void;
+};
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+const MainMenu: React.FC<MainMenuProps> = ({
+  open,
+  handleDrawerOpen,
+  handleDrawerClose,
+}) => {
+  const { shoppingCart } = useProductStore();
 
   const navLinkClassNames = {
     active: "menu__navItem menu__navItem--active",
@@ -78,10 +80,9 @@ const MainMenu: React.FC = () => {
   return (
     <Drawer classes={{ paper: "menu" }} open={open} variant="permanent">
       <Box
-        alt="EON logo"
+        alt="Biofarm App"
         component="img"
         className="menu__logo"
-        // src={EONLogo}
         sx={{
           opacity: open ? 1 : 0,
           translateX: open ? "-100%" : 0,
@@ -89,6 +90,67 @@ const MainMenu: React.FC = () => {
       />
       <List>
         {MAIN_MENU_ITEMS.map((item) => {
+          if (item.path === PATHS.SHOPPING_CART) {
+            return (
+              <NavLink
+                to={item.path}
+                key={item.text}
+                className={({ isActive }) =>
+                  isActive
+                    ? navLinkClassNames.active
+                    : navLinkClassNames.default
+                }
+              >
+                <ListItem
+                  key={item.text}
+                  disablePadding
+                  sx={{ mr: open ? 3 : "auto", position: "relative" }}
+                  className="menu__listItem"
+                >
+                  <ListItemButton
+                    sx={{
+                      justifyContent: open ? "initial" : "center",
+                      minHeight: 48,
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      className="menu__listIcon"
+                      sx={{ mr: open ? 3 : "auto" }}
+                    >
+                      {item.icon}
+                      {shoppingCart.length > 0 ? (
+                        <div
+                          style={{
+                            borderRadius: "50%",
+                            backgroundColor: "red",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            position: "absolute",
+                            top: "0",
+                            right: "12px",
+                            width: "1rem",
+                            height: "1rem",
+                          }}
+                        >
+                          {shoppingCart.length}
+                        </div>
+                      ) : null}
+                    </ListItemIcon>
+
+                    <ListItemText
+                      primary={item.text}
+                      sx={{
+                        opacity: open ? 1 : 0,
+                        transition: ".1s ease opacity",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+            );
+          }
           return (
             <NavLink
               to={item.path}

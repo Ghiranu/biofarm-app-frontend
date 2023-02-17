@@ -1,3 +1,3 @@
-import { PaginationComponent } from './PaginationComponent'
-import { Table } from './Table'
-export { PaginationComponent, Table }
+import { PaginationComponent } from "./PaginationComponent";
+import { Spinner } from "./Spinner";
+export { PaginationComponent, Spinner };
