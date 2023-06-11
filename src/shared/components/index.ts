@@ -1,3 +1,4 @@
 import { PaginationComponent } from "./PaginationComponent";
 import { Spinner } from "./Spinner";
-export { PaginationComponent, Spinner };
+import { CustomDialog } from "./CustomDialog";
+export { PaginationComponent, Spinner, CustomDialog };

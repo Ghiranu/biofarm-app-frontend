@@ -60,4 +60,4 @@ export const AUTH_SERVICE_PATH = "/auth";
 
 export const PRODUCTS_SERVICE_PATH = "/products";
 
-export const VALIDATION_ERROR_MESSAGE = "Valoare introdusa invalida";
+export const VALIDATION_ERROR_MESSAGE = "Acest camp nu poate fi gol";

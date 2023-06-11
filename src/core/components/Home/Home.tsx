@@ -1,4 +1,4 @@
-import { Button, Box } from "@mui/material";
+import { Button, Box, Typography } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { AuthenticationService } from "Authentication/services";
@@ -18,11 +18,13 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <h1>HOME</h1>
-      <Button onClick={() => AuthenticationService.logout("logout")}>
+      {/* <Button onClick={() => AuthenticationService.logout("logout")}>
         Logout
-      </Button>
+      </Button> */}
       {/* <MainMenu /> */}
+      <Typography sx={{ fontSize: "48px", color: "#858585" }}>
+        Lista produse
+      </Typography>
       <Box
         sx={{
           display: "flex",
@@ -30,6 +32,7 @@ const Home: React.FC = () => {
           flexWrap: "wrap",
           height: "100vh",
           justifyContent: "center",
+          padding: "25px",
         }}
       >
         {data?.map((product) => {

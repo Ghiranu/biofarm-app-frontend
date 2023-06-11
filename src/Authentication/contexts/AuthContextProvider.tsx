@@ -11,12 +11,13 @@ import React, {
 type AuthContextProps = {
   auth: {
     accessToken: string | null;
+    roles: string;
   };
   setAuth: Dispatch<SetStateAction<any>>;
 };
 
 const AuthContext = createContext<AuthContextProps>({
-  auth: { accessToken: "" },
+  auth: { accessToken: "", roles: "" },
   setAuth: () => {},
 });
 
@@ -25,7 +26,7 @@ type Props = {
 };
 
 export const AuthContextProvider: any = (props: Props) => {
-  const [auth, setAuth] = useState({ accessToken: "" });
+  const [auth, setAuth] = useState({ accessToken: "", roles: "" });
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

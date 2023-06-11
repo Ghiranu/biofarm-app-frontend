@@ -27,6 +27,10 @@ export class ProductsService extends CrudService<Products> {
     return this.post(resource, route);
   }
 
+  subtractProductQuantity(resource: any, route: string) {
+    return this.post(resource, route);
+  }
+
   getCartProducts(route: string) {
     return this.getAll(route);
   }

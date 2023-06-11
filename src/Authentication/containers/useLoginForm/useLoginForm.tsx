@@ -31,7 +31,7 @@ const useLoginForm = () => {
 
   const login = handleSubmit((data) =>
     AuthenticationService.login(data, "login").then((data: any) => {
-      setAuth(data.accessToken);
+      setAuth(data);
       navigate("/");
     })
   );

@@ -4,6 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import ProductsService from "Products/services/products.service";
 import { ProductsDTO } from "~/Products/types/dtos";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 const validationSchema = z.object({
   title: z.string().min(3),
@@ -64,6 +69,22 @@ const useAddProductPage = (product?: ProductsDTO) => {
     return ProductsService.addProduct(formData, "add-product");
   });
 
+  const queryClient = useQueryClient();
+
+  const updateProductMutation = useMutation({
+    mutationFn: (data: any) => {
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("inStock", JSON.stringify(data.inStock));
+      formData.append("image", data.image[0] as any);
+      formData.append("price", data.price);
+      return ProductsService.editProduct(formData, `edit-product/${data.id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products"]);
+    },
+  });
+
   const handleEditProduct = handleSubmit((data, id) => {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -82,7 +103,9 @@ const useAddProductPage = (product?: ProductsDTO) => {
     handleAddProduct,
     handleSelectFile,
     preview,
+    handleSubmit,
     handleEditProduct,
+    updateProductMutation,
   };
 };
 

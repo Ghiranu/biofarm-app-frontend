@@ -10,6 +10,7 @@ import ProtectedRoute from "./core/routes/ProtectedRoute";
 import { OrdersPage } from "./Orders/components";
 import { AddProductPage } from "./Products/components/AddProductPage";
 import { ShoppingCartPage } from "./Products/components/ShoppingCartPage";
+import { SubscriptionStepper } from "./Subscriptions/components";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
         </Route>
 
         <Route element={<ProtectedRoute />}>
-          <Route path="subscriptions" element={<h1>Test</h1>} />
+          <Route path="subscriptions" element={<SubscriptionStepper />} />
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="shopping-cart" element={<ShoppingCartPage />} />

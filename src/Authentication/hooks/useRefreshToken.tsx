@@ -7,7 +7,7 @@ const useRefreshToken = () => {
 
   const refresh = async () => {
     const response = await AuthenticationService.refresh("refresh");
-    setAuth(response.accessToken);
+    setAuth(response);
     return response.accessToken;
   };
   return refresh;

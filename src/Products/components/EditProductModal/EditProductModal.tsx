@@ -34,6 +34,8 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
     handleAddProduct,
     handleSelectFile,
     handleEditProduct,
+    updateProductMutation,
+    handleSubmit,
     preview,
   } = useAddProduct(product);
 
@@ -49,101 +51,113 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">Editeaza produsul</DialogTitle>
-        <form onSubmit={handleAddProduct}>
+        <form
+          onSubmit={handleSubmit((data) => {
+            updateProductMutation.mutate({ ...data, id: product._id });
+            handleEditProductModal();
+          })}
+        >
           <DialogContent>
-            {preview ? (
-              <img style={{ width: "200px", height: "200px" }} src={preview} />
-            ) : null}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px",
-              }}
-            >
-              <Controller
-                name="title"
-                control={control}
-                defaultValue=""
-                render={({ field: { ref, onChange, ...field } }) => (
-                  <TextField
-                    label="Nume Produs"
-                    variant="outlined"
-                    error={Boolean(errors.title)}
-                    helperText={errors.title?.message}
-                    inputRef={ref}
-                    onChange={(event) => {
-                      if (errors.title) {
-                        trigger("title");
-                      }
-                      onChange(event.target.value);
-                    }}
-                    {...field}
-                  />
-                )}
-              />
-              <Controller
-                name="price"
-                control={control}
-                defaultValue=""
-                render={({ field: { ref, onChange, ...field } }) => (
-                  <TextField
-                    label="Pret"
-                    variant="outlined"
-                    error={Boolean(errors.price)}
-                    helperText={errors.price?.message}
-                    inputRef={ref}
-                    onChange={(event) => {
-                      if (errors.price) {
-                        trigger("price");
-                      }
-                      onChange(event.target.value);
-                    }}
-                    {...field}
-                  />
-                )}
-              />
-              <Controller
-                name="inStock"
-                control={control}
-                render={({ field: { onChange, value, ...field } }) => {
-                  console.log(value, "VALUE");
-                  return (
-                    <Stack direction="row" alignItems="center">
-                      <label>In stoc</label>
-                      <Checkbox
-                        onChange={(e: any) => onChange(e.target.checked)}
-                        checked={value}
-                        {...field}
-                      />
-                    </Stack>
-                  );
+            <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              {preview ? (
+                <img
+                  style={{ width: "200px", height: "200px" }}
+                  src={preview}
+                />
+              ) : (
+                <img
+                  style={{ width: "200px", height: "200px" }}
+                  src={`${import.meta.env.VITE_BASE_URL}/${product?.image}`}
+                />
+              )}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
                 }}
-              />
-              <Button variant="contained" component="label">
-                Upload
-                <input
-                  {...register("image")}
-                  hidden
-                  name="image"
-                  accept="image/*"
-                  type="file"
-                  onChange={(event) => {
-                    handleSelectFile(event);
-                    register("image").onChange(event);
+              >
+                <Controller
+                  name="title"
+                  control={control}
+                  defaultValue=""
+                  render={({ field: { ref, onChange, ...field } }) => (
+                    <TextField
+                      label="Nume Produs"
+                      variant="outlined"
+                      error={Boolean(errors.title)}
+                      helperText={errors.title?.message}
+                      inputRef={ref}
+                      onChange={(event) => {
+                        if (errors.title) {
+                          trigger("title");
+                        }
+                        onChange(event.target.value);
+                      }}
+                      {...field}
+                    />
+                  )}
+                />
+                <Controller
+                  name="price"
+                  control={control}
+                  defaultValue=""
+                  render={({ field: { ref, onChange, ...field } }) => (
+                    <TextField
+                      label="Pret"
+                      variant="outlined"
+                      error={Boolean(errors.price)}
+                      helperText={errors.price?.message}
+                      inputRef={ref}
+                      onChange={(event) => {
+                        if (errors.price) {
+                          trigger("price");
+                        }
+                        onChange(event.target.value);
+                      }}
+                      {...field}
+                    />
+                  )}
+                />
+                <Controller
+                  name="inStock"
+                  control={control}
+                  render={({ field: { onChange, value, ...field } }) => {
+                    console.log(value, "VALUE");
+                    return (
+                      <Stack direction="row" alignItems="center">
+                        <label>In stoc</label>
+                        <Checkbox
+                          onChange={(e: any) => onChange(e.target.checked)}
+                          checked={value}
+                          {...field}
+                        />
+                      </Stack>
+                    );
                   }}
                 />
-              </Button>
-
+                <Button variant="contained" component="label">
+                  Upload
+                  <input
+                    {...register("image")}
+                    hidden
+                    name="image"
+                    accept="image/*"
+                    type="file"
+                    onChange={(event) => {
+                      handleSelectFile(event);
+                      register("image").onChange(event);
+                    }}
+                  />
+                </Button>
+              </Box>
               {/* <Button type="submit">Adauga produs</Button> */}
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => handleEditProduct(product._id)}>
-              Salveaza
-            </Button>
+            <Button type="submit">Salveaza</Button>
             <Button onClick={handleEditProductModal}>Renunta</Button>
           </DialogActions>
         </form>

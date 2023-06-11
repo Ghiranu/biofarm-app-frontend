@@ -1,9 +1,10 @@
-export class Order {
+export class Subscription {
   _id: "string";
   products: {
     product: {
-      productName: string;
-      price: number;
+      title: string;
+      price: string;
+      image: any;
     };
     quantity: number;
   };
@@ -15,18 +16,22 @@ export class Order {
     phone: string;
     name: string;
   };
-  createdDate: string;
+  startDate: string;
+  endDate: string;
+  recurrence: string;
   total: number;
 
   setProperties(dto: any) {
-    this.setOrderInfo(dto);
+    this.setSubscriptionInfo(dto);
   }
 
-  private setOrderInfo(dto: any) {
+  private setSubscriptionInfo(dto: any) {
     this.products = dto.products;
     this.customerDetails = dto.customerDetails;
-    this.createdDate = dto.createdDate;
+    this.startDate = dto.startDate;
+    this.endDate = dto.endDate;
     this.total = dto.total;
+    this.recurrence = dto.recurrence;
     this._id = dto._id;
   }
 }

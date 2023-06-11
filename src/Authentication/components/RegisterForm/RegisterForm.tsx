@@ -7,7 +7,8 @@ import "./RegisterForm.scss";
 import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
-  const { control, trigger, errors, register } = useRegisterForm();
+  const { control, trigger, errors, onSubmit, handleSubmit } =
+    useRegisterForm();
   return (
     <>
       <img className="wave" src={WavePhoto} />
@@ -16,7 +17,7 @@ const RegisterForm = () => {
           <img src={BackgroundSVG} />
         </div>
         <div className="login-content">
-          <form onSubmit={register}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Typography sx={{ color: "#6C63FF" }} variant="h2">
               Bun venit
             </Typography>
